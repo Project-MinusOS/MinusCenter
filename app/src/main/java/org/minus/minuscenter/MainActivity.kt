@@ -38,10 +38,6 @@ import androidx.compose.ui.unit.dp
 import org.minus.minuscenter.ui.cards.DeviceCard
 import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
-import androidx.compose.foundation.background
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import org.minus.minuscenter.iotdevice.Device
 import org.minus.minuscenter.viewmodel.DeviceViewModel
 
@@ -75,97 +71,76 @@ fun MainActivityContent(
     launcher: ActivityResultLauncher<Intent>
 ) {
     val context = LocalContext.current
-
-    // 渐变背景定义
-    val gradientBrush = Brush.verticalGradient(
-        colors = listOf(
-            Color(0xFFA9DCF4),
-            Color(0xFFDAF6FF),
-            Color(0xFFE1F6FD),
-            Color(0xFFFFFFFF)
-        )
-    )
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(gradientBrush) // 设置背景为渐变色
-    ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.app_name)) },
-                    actions = {
-                        IconButton(onClick = {
-                            launcher.launch(Intent(context, AddDeviceActivity::class.java))
-                        }) {
-                            Icon(Icons.Filled.Add, contentDescription = "Add Device")
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent,
-                        titleContentColor = Color.White,  // 可根据背景调整文字颜色
-                        actionIconContentColor = Color.White
-                    )
-                )
-            },
-            bottomBar = {
-                NavigationBar {
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-                        label = { Text("首页") },
-                        selected = true,
-                        onClick = { }
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Devices, contentDescription = "Devices") },
-                        label = { Text("设备") },
-                        selected = false,
-                        onClick = { }
-                    )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
-                        label = { Text("设置") },
-                        selected = false,
-                        onClick = { }
-                    )
-                }
-            },
-            containerColor = Color.Transparent, // 让Scaffold背景透明以显示渐变
-            contentColor = MaterialTheme.colorScheme.onBackground
-        ) { innerPadding ->
-            if (devices.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "点击右上角添加按钮来添加设备",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(devices.size) { index ->
-                        val device = devices[index]
-                        DeviceCard(
-                            device = device,
-                            onClick = {
-                                val intent = Intent(context, DeviceControlActivity::class.java).apply {
-                                    putExtra("device", device)
-                                }
-                                context.startActivity(intent)
-                            }
-                        )
+    
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.app_name)) },
+                actions = {
+                    IconButton(onClick = {
+                        launcher.launch(Intent(context, AddDeviceActivity::class.java))
+                    }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add Device")
                     }
+                }
+            )
+        },
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+                    label = { Text("首页") },
+                    selected = true,
+                    onClick = { }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Filled.Devices, contentDescription = "Devices") },
+                    label = { Text("设备") },
+                    selected = false,
+                    onClick = { }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
+                    label = { Text("设置") },
+                    selected = false,
+                    onClick = { }
+                )
+            }
+        }
+    ) { innerPadding ->
+        if (devices.isEmpty()) {
+            // 如果没有设备，显示空状态提示
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "点击右上角添加按钮来添加设备",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        } else {
+            // 使用LazyColumn显示设备卡片
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(devices.size) { index ->
+                    val device = devices[index]
+                    DeviceCard(
+                        device = device,
+                        onClick = {
+                            val intent = Intent(context, DeviceControlActivity::class.java).apply {
+                                putExtra("device", device)
+                            }
+                            context.startActivity(intent)
+                        }
+                    )
                 }
             }
         }

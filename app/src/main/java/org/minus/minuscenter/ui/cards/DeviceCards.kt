@@ -34,24 +34,24 @@ fun DeviceCard(
     // 根据设备类型选择不同的柔和渐变颜色
     val gradientColors = when (device.type) {
         "卧室" -> listOf(
-            Color(0xFFBBDEFB), // 浅蓝色
-            Color(0xFF90CAF9)  // 更浅的蓝色
+            Color(0xFF93CBFA), // 浅蓝色
+            Color(0xFFCFE4FD)  // 更浅的蓝色
         )
         "客厅" -> listOf(
-            Color(0xFFE1BEE7), // 浅紫色
-            Color(0xFFCE93D8)  // 更浅的紫色
+            Color(0xFFFD9873),// 浅紫色
+            Color(0xFFFFD1BE) // 更浅的紫色
         )
         "厨房" -> listOf(
-            Color(0xFFC8E6C9), // 浅绿色
-            Color(0xFFA5D6A7)  // 更浅的绿色
+            Color(0xFFA5D6A7),  // 更浅的绿色
+            Color(0xFFC8E6C9) // 浅绿色
         )
         "浴室" -> listOf(
-            Color(0xFFB2EBF2), // 浅青色
-            Color(0xFF80DEEA)  // 更浅的青色
+            Color(0xFFFFAEAE), // 浅青色
+            Color(0xFFFFE0EA)  // 更浅的青色
         )
         else -> listOf(
-            Color(0xFFEEEEEE), // 浅灰色
-            Color(0xFFE0E0E0)  // 稍深灰色
+            Color(0xFF63B6FF), // 浅灰色
+            Color(0xFFC5E6FF)  // 稍深灰色
         )
     }
 
@@ -69,7 +69,10 @@ fun DeviceCard(
             Box(
                 modifier = Modifier.fillMaxSize().background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFFF9F9F9), Color(0xFFF2F2F2)),
+                        colors = listOf(
+                            Color(0xFFFFFFFF),
+                            Color(0xFFF1F1F1)
+                        ),
                         startY = 0f, endY = Float.POSITIVE_INFINITY
                     )
                 )
