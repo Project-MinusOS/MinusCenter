@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MinusCenter</string>
+    <string name="add_device">AddDevice</string>
+    <string name="device_name">设备</string>
+    <string name="device_spec">这是一个物联网设备</string>
+    <string name="device_name_default_value">iot_device</string>
+</resources>
